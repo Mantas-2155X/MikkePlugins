@@ -1,0 +1,139 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+    <PropertyGroup>
+        <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+        <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+        <ProjectGuid>{7487F88F-8745-492B-9449-7ADA28B0C056}</ProjectGuid>
+        <OutputType>Library</OutputType>
+        <AppDesignerFolder>Properties</AppDesignerFolder>
+        <RootNamespace>MapController</RootNamespace>
+        <AssemblyName>MapController</AssemblyName>
+        <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+        <FileAlignment>512</FileAlignment>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+        <PlatformTarget>AnyCPU</PlatformTarget>
+        <DebugSymbols>true</DebugSymbols>
+        <DebugType>full</DebugType>
+        <Optimize>false</Optimize>
+        <OutputPath>bin\Debug\</OutputPath>
+        <DefineConstants>DEBUG;TRACE</DefineConstants>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+        <PlatformTarget>AnyCPU</PlatformTarget>
+        <DebugType>pdbonly</DebugType>
+        <Optimize>true</Optimize>
+        <OutputPath>bin\Release\</OutputPath>
+        <DefineConstants>TRACE</DefineConstants>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'HS2|AnyCPU' ">
+        <OutputPath>bin\HS2\</OutputPath>
+        <DefineConstants>HS2</DefineConstants>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AI|AnyCPU' ">
+        <OutputPath>bin\AI\</OutputPath>
+        <DefineConstants>AI</DefineConstants>
+        <Optimize>true</Optimize>
+    </PropertyGroup>
+    <ItemGroup Condition=" '$(Configuration)|$(Platform)' == 'HS2|AnyCPU' ">
+        <Reference Include="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <HintPath>..\..\..\..\..\..\..\Games\H\HoneySelect2\StudioNEOV2_Data\Managed\Assembly-CSharp.dll</HintPath>
+        </Reference>
+        <Reference Include="Assembly-CSharp-firstpass, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <HintPath>..\..\..\..\..\..\..\Games\H\HoneySelect2\StudioNEOV2_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
+        </Reference>
+        <Reference Include="HS2_ExtensibleSaveFormat, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <HintPath>..\..\..\..\..\..\..\Games\H\HoneySelect2\BepInEx\plugins\HS2_BepisPlugins\HS2_ExtensibleSaveFormat.dll</HintPath>
+        </Reference>
+        <Reference Include="IL, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <HintPath>..\..\..\..\..\..\..\Games\H\HoneySelect2\StudioNEOV2_Data\Managed\IL.dll</HintPath>
+        </Reference>
+        <Reference Include="RuntimeUnityEditor.Core, Version=2.2.1.0, Culture=neutral, PublicKeyToken=null">
+          <HintPath>..\..\..\..\..\..\..\Games\H\HoneySelect2\BepInEx\Plugins\RuntimeUnityEditor\RuntimeUnityEditor.Core.dll</HintPath>
+        </Reference>
+        <Reference Include="System" />
+        <Reference Include="System.Core" />
+        <Reference Include="System.Xml" />
+        <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <HintPath>..\..\..\..\..\..\..\Games\H\HoneySelect2\StudioNEOV2_Data\Managed\UnityEngine.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <HintPath>..\..\..\..\..\..\..\Games\H\HoneySelect2\StudioNEOV2_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.IMGUIModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <HintPath>..\..\..\..\..\..\..\Games\H\HoneySelect2\HoneySelect2_Data\Managed\UnityEngine.IMGUIModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.JSONSerializeModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <HintPath>..\..\..\..\..\..\..\Games\H\HoneySelect2\HoneySelect2_Data\Managed\UnityEngine.JSONSerializeModule.dll</HintPath>
+        </Reference>
+        <Reference Include="BepInEx, Version=5.4.1.0, Culture=neutral, PublicKeyToken=null">
+            <HintPath>..\..\..\..\..\..\..\Games\H\HoneySelect2\BepInEx\core\BepInEx.dll</HintPath>
+        </Reference>
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Include="MapControllerPlugin.cs" />
+        <Compile Include="Properties\AssemblyInfo.cs" />
+    </ItemGroup>
+    
+    <ItemGroup Condition=" '$(Configuration)|$(Platform)' == 'AI|AnyCPU' ">
+      <Reference Include="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\..\..\Games\H\AI-Shoujo\StudioNEOV2_Data\Managed\Assembly-CSharp.dll</HintPath>
+      </Reference>
+      <Reference Include="BepInEx, Version=5.2.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\..\..\Games\H\AI-Shoujo\BepInEx\core\BepInEx.dll</HintPath>
+      </Reference>
+      <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\..\..\Games\H\AI-Shoujo\StudioNEOV2_Data\Managed\UnityEngine.dll</HintPath>
+      </Reference>
+      <Reference Include="AI_ExtensibleSaveFormat, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\..\..\Games\H\AI-Shoujo\BepInEx\Plugins\AI_BepisPlugins\AI_ExtensibleSaveFormat.dll</HintPath>
+      </Reference>
+      <Reference Include="Assembly-CSharp-firstpass, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\..\..\Games\H\AI-Shoujo\StudioNEOV2_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
+      </Reference>
+      <Reference Include="System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+        <HintPath>..\..\..\..\..\..\..\Games\H\AI-Shoujo\StudioNEOV2_Data\Managed\System.dll</HintPath>
+      </Reference>
+      <Reference Include="System.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+        <HintPath>..\..\..\..\..\..\..\Games\H\AI-Shoujo\StudioNEOV2_Data\Managed\System.Core.dll</HintPath>
+      </Reference>
+      <Reference Include="System.Xml, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+        <HintPath>..\..\..\..\..\..\..\Games\H\AI-Shoujo\StudioNEOV2_Data\Managed\System.Xml.dll</HintPath>
+      </Reference>
+      <Reference Include="UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\..\..\Games\H\AI-Shoujo\StudioNEOV2_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+      </Reference>
+      <Reference Include="UnityEngine.IMGUIModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\..\..\Games\H\AI-Shoujo\StudioNEOV2_Data\Managed\UnityEngine.IMGUIModule.dll</HintPath>
+      </Reference>
+      <Reference Include="UnityEngine.JSONSerializeModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\..\..\..\Games\H\AI-Shoujo\StudioNEOV2_Data\Managed\UnityEngine.JSONSerializeModule.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
+    <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+    <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+         Other similar extension points exist, see Microsoft.Common.targets.
+    <Target Name="BeforeBuild">
+    </Target>
+    <Target Name="AfterBuild">
+    </Target>
+    -->
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'HS2|AnyCPU' ">
+        <PostBuildEvent>
+            copy MapController.dll C:\Games\H\HoneySelect2\Bepinex\plugins           
+        </PostBuildEvent>
+        <OutputPath>bin\HS2</OutputPath>
+        <Optimize>true</Optimize>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AI|AnyCPU' ">
+        <PostBuildEvent>
+            copy MapController.dll C:\Games\H\AI-Shoujo\Bepinex\plugins
+        </PostBuildEvent>
+    </PropertyGroup>
+</Project>

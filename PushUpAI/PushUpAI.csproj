@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{DC603531-1E06-4600-A352-42E680865103}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PushUpAI</RootNamespace>
+    <AssemblyName>PushUpAI</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AI|AnyCPU' ">
+    <OutputPath>bin\AI\</OutputPath>
+    <DefineConstants>AI</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'HS2|AnyCPU' ">
+    <OutputPath>bin\HS2\</OutputPath>
+    <DefineConstants>HS2</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup Condition=" '$(Configuration)|$(Platform)' == 'AI|AnyCPU' ">
+    <Reference Include="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\..\..\Games\H\AI-Shoujo\StudioNEOV2_Data\Managed\Assembly-CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="BepInEx.Harmony, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\..\..\Games\H\AI-Shoujo\BepInEx\core\BepInEx.Harmony.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UniRx, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\..\..\Games\H\AI-Shoujo\StudioNEOV2_Data\Managed\UniRx.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\..\..\Games\H\AI-Shoujo\StudioNEOV2_Data\Managed\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\..\..\Games\H\AI-Shoujo\StudioNEOV2_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\..\..\Games\H\AI-Shoujo\StudioNEOV2_Data\Managed\UnityEngine.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="0Harmony, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\..\..\Games\H\AI-Shoujo\BepInEx\core\0Harmony.dll</HintPath>
+    </Reference>
+    <Reference Include="AIABMX, Version=4.3.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\..\..\Games\H\AI-Shoujo\BepInEx\plugins\AIABMX.dll</HintPath>
+    </Reference>
+    <Reference Include="AIAPI, Version=1.12.4.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\..\..\Games\H\AI-Shoujo\BepInEx\plugins\AIAPI.dll</HintPath>
+    </Reference>
+    <Reference Include="AI_ExtensibleSaveFormat, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\..\..\Games\H\AI-Shoujo\BepInEx\plugins\AI_BepisPlugins\AI_ExtensibleSaveFormat.dll</HintPath>
+    </Reference>
+    <Reference Include="BepInEx, Version=5.2.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\..\..\Games\H\AI-Shoujo\BepInEx\core\BepInEx.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup Condition=" '$(Configuration)|$(Platform)' == 'HS2|AnyCPU' ">
+    <Reference Include="HS2PE, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\..\..\Games\H\HoneySelect2\BepInEx\Plugins\HS2PE.dll</HintPath>
+    </Reference>
+    <Reference Include="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\..\..\Games\H\HoneySelect2\StudioNEOV2_Data\Managed\Assembly-CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="BepInEx.Harmony, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\..\..\Games\H\HoneySelect2\BepInEx\core\BepInEx.Harmony.dll</HintPath>
+    </Reference>
+    <Reference Include="HS2_ExtensibleSaveFormat, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\..\..\Games\H\HoneySelect2\BepInEx\plugins\HS2_BepisPlugins\HS2_ExtensibleSaveFormat.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UniRx, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\..\..\Games\H\HoneySelect2\StudioNEOV2_Data\Managed\UniRx.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\..\..\Games\H\HoneySelect2\StudioNEOV2_Data\Managed\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\..\..\Games\H\HoneySelect2\StudioNEOV2_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\..\..\Games\H\HoneySelect2\StudioNEOV2_Data\Managed\UnityEngine.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="0Harmony, Version=2.4.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\..\..\Games\H\HoneySelect2\BepInEx\core\0Harmony.dll</HintPath>
+    </Reference>
+    <Reference Include="BepInEx, Version=5.4.9.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\..\..\Games\H\HoneySelect2\BepInEx\core\BepInEx.dll</HintPath>
+    </Reference>
+    <Reference Include="HS2ABMX, Version=4.3.4.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\..\..\Games\H\HoneySelect2\BepInEx\Plugins\HS2ABMX.dll</HintPath>
+    </Reference>
+    <Reference Include="HS2API, Version=1.17.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\..\..\Games\H\HoneySelect2\BepInEx\Plugins\HS2API.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="PushUpBoneController.cs" />
+    <Compile Include="PushUpAiPlugin.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PushUpController.cs" />
+    <Compile Include="PushUpGui.cs" />
+    <Compile Include="SliderManager.cs" />
+  </ItemGroup>
+
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+         Other similar extension points exist, see Microsoft.Common.targets.
+    <Target Name="BeforeBuild">
+    </Target>
+    <Target Name="AfterBuild">
+    </Target>
+    -->
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AI|AnyCPU' ">
+    <PostBuildEvent>
+            copy PushUpAi.dll C:\Games\H\AI-Shoujo\Bepinex\plugins
+        </PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'HS2|AnyCPU' ">
+    <PostBuildEvent>
+      copy PushUpAi.dll C:\Games\H\HoneySelect2\BepInEx\plugins
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>
