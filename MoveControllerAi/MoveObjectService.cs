@@ -20,7 +20,7 @@ namespace MoveController {
 
         private UndoRedoService undoRedoService;
 
-        //   public bool IkSelected { get; set; } = false;
+        public bool IkSelected { get; set; } = false;
 
         public MoveObjectService(Studio.CameraControl cameraControl, UndoRedoService undoRedoService) {
             this.cameraControl = cameraControl;
@@ -48,28 +48,22 @@ namespace MoveController {
                 return;
             }
 
-            GuideCommand.EqualsInfo[] moves = new GuideCommand.EqualsInfo[selectedObjs.Count];
-            int primaryDicKey = selectedObjs.ElementAt(0).objectInfo.dicKey;
-            ChangeAmount primaryChangeAmount = Studio.Studio.GetChangeAmount(primaryDicKey);
-            Vector3 primaryOffset = cameraControl.targetPos - primaryChangeAmount.pos;
-            for (int i = 0; i < selectedObjs.Count; i++) {
-                GuideCommand.EqualsInfo eqMove = new GuideCommand.EqualsInfo();
-                int dickEy = selectedObjs.ElementAt(i).objectInfo.dicKey; //lol
-                eqMove.dicKey = dickEy;
-                ChangeAmount changeAmount = Studio.Studio.GetChangeAmount(dickEy);
-                eqMove.oldValue = changeAmount.pos;
+            undoRedoService.StoreOldPositions(selectedObjs);
+
+            Vector3 primaryOffset = selectedObjs[0].guideObject.transformTarget.position;
+
+            foreach (var obj in selectedObjs) {
                 if (relative) {
-                    eqMove.newValue = changeAmount.pos + primaryOffset;
+                    obj.guideObject.transformTarget.position = cameraControl.targetPos +
+                        obj.guideObject.transformTarget.position - primaryOffset;
                 } else {
-                    eqMove.newValue = cameraControl.targetPos;
+                    obj.guideObject.transformTarget.position = cameraControl.targetPos;
                 }
 
-                moves[i] = eqMove;
+                obj.guideObject.changeAmount.pos = obj.guideObject.transformTarget.localPosition;
             }
 
-            var moveCom = new GuideCommand.MoveEqualsCommand(moves);
-            moveCom.Do();
-            UndoRedoManager.Instance.Push(moveCom);
+            undoRedoService.CreateUndoForMove(selectedObjs);
         }
 
 
@@ -117,66 +111,47 @@ namespace MoveController {
 
             var sizeCom = new GuideCommand.ScaleEqualsCommand(resizeCommands);
             sizeCom.Do();
+
+            //TODO: undo for resize
         }
 
         public void MoveObj(List<ObjectCtrlInfo> selectedObjs, Vector3 moveAmount) {
-            Vector3 mof = moveAmount * moveSpeedFactor;
-            undoRedoService.MoveDelta += mof;
+            var amount = moveAmount * moveSpeedFactor;
 
-            GuideCommand.AddInfo[] moves = TransformAllSelected(selectedObjs, mof);
-            var moveCom = new GuideCommand.MoveAddCommand(moves);
-            moveCom.Do();
+            foreach (var obj in selectedObjs) {
+                obj.guideObject.transformTarget.Translate(amount, Space.World);
+                obj.guideObject.changeAmount.pos = obj.guideObject.transformTarget.localPosition;
+            }
         }
 
-        /*
         public void MoveIk(Vector3 moveAmount) {
-          //  List<GuideObject> Objs = new List<GuideObject>(Singleton<GuideObjectManager>.Instance.selectObjects);
-            Vector3 mof = moveAmount * moveSpeedFactor;
-            undoRedoService.MoveDelta += mof;
+            var ikGuide = Singleton<GuideObjectManager>.Instance.selectObject;
+            if (ikGuide == null) return;
 
-            GuideCommand.AddInfo[] moves = TransformAllGuided(Singleton<GuideObjectManager>.Instance.selectObject, mof);
-            var moveCom = new GuideCommand.MoveAddCommand(moves);
-            moveCom.Do();
-        }
-        
-        public void MoveIk2(Vector3 moveAmount) {
-            var obj = Singleton<GuideObjectManager>.Instance.selectObject;
-            var worldPosition = obj.transform.position;
-            var newPos = worldPosition += moveAmount;
+            var amount = moveAmount * moveSpeedFactor;
 
-            var newLocPos = obj.transform.InverseTransformPoint(newPos);
-
-            var localDiff = newLocPos - obj.transform.localPosition;
-            
-            obj.MoveLocal(localDiff);
-
-
-
+            ikGuide.transformTarget.Translate(amount, Space.World);
+            ikGuide.changeAmount.pos = ikGuide.transformTarget.localPosition;
         }
 
-        // public GuideCommand.AddInfo[] TransformAllGuided(List<GuideObject> guidedObjs, Vector3 amount) {
-        public GuideCommand.AddInfo[] TransformAllGuided(GuideObject guide, Vector3 amount) {
-            GuideCommand.AddInfo[] moves = new GuideCommand.AddInfo[1];
-            // for (int i = 0; i < guidedObjs.Count; i++) {
-            // var guide = guidedObjs.ElementAt(i);
+        public void RotateIk(Vector3 rotAmount) {
+            var ikGuide = Singleton<GuideObjectManager>.Instance.selectObject;
+            if (ikGuide == null) return;
 
-            var localAmount = amount;
-            localAmount = guide.transform.InverseTransformVector(amount);
-            guide.MoveWorld(amount);
-            // var parent = guide.parentGuide;
-            //  if (parent != null) {
-            //     localAmount = Quaternion.Euler(parent.changeAmount.rot) * amount;
-            //}
+            var amount = rotAmount * rotationSpeedFactor;
 
-            GuideCommand.AddInfo addMove = new GuideCommand.AddInfo();
-            addMove.dicKey = guide.dicKey;
-            addMove.value = localAmount;
-            moves[0] = addMove;
-            // }
+            GuideCommand.AddInfo[] rotated = new GuideCommand.AddInfo[1];
 
-            return moves;
-        }*/
+            int dicKey = ikGuide.dicKey;
 
+            rotated[0] = new GuideCommand.AddInfo() {
+                value = amount,
+                dicKey = dicKey
+            };
+
+            var rotateCom = new GuideCommand.RotationAddCommand(rotated);
+            rotateCom.Do();
+        }
 
         public GuideCommand.AddInfo[] TransformAllSelected(List<ObjectCtrlInfo> selectedObjs, Vector3 Amount) {
             GuideCommand.AddInfo[] moves = new GuideCommand.AddInfo[selectedObjs.Count];
@@ -330,10 +305,14 @@ namespace MoveController {
             UndoRedoManager.Instance.Push(rotateCom);
         }
 
-        /*public bool CheckIfIkSelected() {
+        public bool CheckIfIkSelected() {
             var guided = Singleton<GuideObjectManager>.Instance.selectObject;
             if (guided == null) {
-                //TODO: figure out how to block IK control when guideobjects are hidden.
+                //TODO: figure out how to block IK control when guideobjects are hidden?
+                return false;
+            }
+            
+            if (guided.guideSelect.isActiveAndEnabled) {
                 return false;
             }
 
@@ -346,6 +325,20 @@ namespace MoveController {
             }
 
             return false;
-        }*/
+        }
+
+        public bool CheckIfIkRotSelected() {
+            if (CheckIfIkSelected() == false) {
+                return false;
+            }
+
+            var guided = Singleton<GuideObjectManager>.Instance.selectObject;
+            if (!guided.enableRot) {
+                IkSelected = false;
+                return false;
+            }
+
+            return true;
+        }
     }
 }

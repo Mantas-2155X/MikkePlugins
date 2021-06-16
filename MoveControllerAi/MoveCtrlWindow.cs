@@ -30,9 +30,8 @@ namespace MoveController {
         public bool NeverHideObjectHandle { get; set; }
         public ConfigEntry<float> GuiScale { get; set; }
         private static float GuiFactor = 0.8f;
-
-
-        public List<ObjectCtrlInfo> AllSelected = new List<ObjectCtrlInfo>();
+        
+        public readonly List<ObjectCtrlInfo> AllSelected = new List<ObjectCtrlInfo>();
 
         private Studio.CameraControl cameraControl;
 
@@ -59,7 +58,7 @@ namespace MoveController {
 
             undoRedoService = new UndoRedoService();
             moveObjectService = new MoveObjectService(cameraControl, undoRedoService);
-            undoRedoService.setMoveObjectService(moveObjectService);
+            undoRedoService.MoveObjectService = moveObjectService;
             fkManagerService = new FkManagerService();
 
             SpawnGUI();
@@ -247,8 +246,8 @@ namespace MoveController {
             ResetFkButton = buttonManager.ClickButton(GUI.transform.Find("MovePanel/ResetFk").GetComponent<Button>(), buttonActionManager.ResetFk());
             disableButton(ResetFkButton);
 
-            buttonManager.slider(GUI.transform.Find("MovePanel/FactorSlider").GetComponent<Slider>(), buttonActionManager.updateSpeedFactors());
-            buttonManager.slider(GUI.transform.Find("MovePanel/FKSizeSlider").GetComponent<Slider>(), buttonActionManager.updateFkScale());
+            buttonManager.slider(GUI.transform.Find("MovePanel/FactorSlider").GetComponent<Slider>(), buttonActionManager.UpdateSpeedFactors());
+            buttonManager.slider(GUI.transform.Find("MovePanel/FKSizeSlider").GetComponent<Slider>(), buttonActionManager.UpdateFkScale());
 
             GUI.gameObject.AddComponent<EventTrigger>();
             EventTrigger trigger = GUI.gameObject.GetComponent<EventTrigger>();

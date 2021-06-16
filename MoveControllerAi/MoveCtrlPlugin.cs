@@ -8,7 +8,7 @@ namespace MoveController {
     [BepInProcess("StudioNEOV2")]
     public class MoveCtrlPlugin : BaseUnityPlugin {
         public const string GUID = "mikke.MoveControllerAI";
-        public const string VERSION = "1.5.2";
+        public const string VERSION = "1.6.0";
 
         public static ConfigFile ConfigFile;
         public const string MoveCtrlConfigName = "Move Controller settings";

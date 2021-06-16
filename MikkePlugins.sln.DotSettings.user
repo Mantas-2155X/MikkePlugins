@@ -11,6 +11,8 @@
 	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=C_003A_005CGames_005CH_005CHoneySelect2_005CStudioNEOV2_005FData_005CManaged_005CUnityEngine_002EUI_002Edll/@EntryIndexedValue">True</s:Boolean>
 	<s:String x:Key="/Default/Environment/AssemblyExplorer/XmlDocument/@EntryValue">&lt;AssemblyExplorer&gt;&#xD;
   &lt;Assembly Path="C:\Games\H\HoneySelect2\StudioNEOV2_Data\Managed\UnityEngine.UI.dll" /&gt;&#xD;
+  &lt;Assembly Path="C:\Games\H\HoneySelect2\StudioNEOV2_Data\Managed\Assembly-CSharp.dll" /&gt;&#xD;
+  &lt;Assembly Path="C:\Users\ivers\OneDrive\Dev\Mikke\MikkePlugins\BeaverAI\bin\HS2\HS2API.dll" /&gt;&#xD;
 &lt;/AssemblyExplorer&gt;</s:String>
 	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=CharLoader_002FCharLoaderRes/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=ClipController_002FProperties_002FResources/@EntryIndexedValue">True</s:Boolean>
