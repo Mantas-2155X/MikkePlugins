@@ -86,16 +86,16 @@
     <Reference Include="UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\..\..\..\..\..\..\Games\H\HoneySelect2\StudioNEOV2_Data\Managed\UnityEngine.UI.dll</HintPath>
     </Reference>
-    <Reference Include="0Harmony, Version=2.4.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\..\..\..\..\..\Games\H\HoneySelect2\BepInEx\core\0Harmony.dll</HintPath>
+    <Reference Include="0Harmony, Culture=neutral, PublicKeyToken=null">
+      <HintPath>C:\Games\Games\H\HoneySelect2\BepInEx\core\0Harmony.dll</HintPath>
     </Reference>
-    <Reference Include="BepInEx, Version=5.4.9.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\..\..\..\..\..\Games\H\HoneySelect2\BepInEx\core\BepInEx.dll</HintPath>
+    <Reference Include="BepInEx, Culture=neutral, PublicKeyToken=null">
+      <HintPath>C:\Games\H\HoneySelect2\BepInEx\core\BepInEx.dll</HintPath>
     </Reference>
-    <Reference Include="HS2ABMX, Version=4.3.4.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\..\..\..\..\..\Games\H\HoneySelect2\BepInEx\Plugins\HS2ABMX.dll</HintPath>
+    <Reference Include="HS2ABMX, Culture=neutral, PublicKeyToken=null">
+      <HintPath>C:\Games\Games\H\HoneySelect2\BepInEx\Plugins\HS2ABMX.dll</HintPath>
     </Reference>
-    <Reference Include="HS2API, Version=1.17.0.0, Culture=neutral, PublicKeyToken=null">
+    <Reference Include="HS2API, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\..\..\..\..\..\..\Games\H\HoneySelect2\BepInEx\Plugins\HS2API.dll</HintPath>
     </Reference>
   </ItemGroup>

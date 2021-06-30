@@ -26,12 +26,5 @@ namespace Straight2Maker {
                 __instance.OnMakeFemale();
             }
         }
-        
-        [HarmonyPostfix, HarmonyPatch(typeof(BonesFramework.BonesFramework), "LoadAdditionalBonesForCurrent")]
-        public static void Fbx_load_path(string assetBundlePath,
-            string assetName,
-            string manifest) {
-            UnityEngine.Debug.LogError("JALLA:"+assetBundlePath);
-        }
     }
 }
