@@ -5,7 +5,7 @@ using Studio;
 using UnityEngine;
 
 namespace MoveController {
-    class MoveObjectService {
+    public class MoveObjectService {
         private const float BaseMoveSpeedFactor = 0.5f;
         private const float BaseRotationSpeedFactor = 2f;
         private const float BaseAnimationSpeedFactor = 0.05f;
@@ -16,14 +16,11 @@ namespace MoveController {
         internal float sizeSpeedFactor = 1f;
         internal float animationSpeedFactor = 1f;
 
-        private Studio.CameraControl cameraControl;
-
         private UndoRedoService undoRedoService;
 
         public bool IkSelected { get; set; } = false;
 
-        public MoveObjectService(Studio.CameraControl cameraControl, UndoRedoService undoRedoService) {
-            this.cameraControl = cameraControl;
+        public MoveObjectService(UndoRedoService undoRedoService) {
             this.undoRedoService = undoRedoService;
 
             moveSpeedFactor = BaseMoveSpeedFactor;
@@ -54,10 +51,10 @@ namespace MoveController {
 
             foreach (var obj in selectedObjs) {
                 if (relative) {
-                    obj.guideObject.transformTarget.position = cameraControl.targetPos +
+                    obj.guideObject.transformTarget.position = MoveCtrlPlugin.cameraControl.targetPos +
                         obj.guideObject.transformTarget.position - primaryOffset;
                 } else {
-                    obj.guideObject.transformTarget.position = cameraControl.targetPos;
+                    obj.guideObject.transformTarget.position = MoveCtrlPlugin.cameraControl.targetPos;
                 }
 
                 obj.guideObject.changeAmount.pos = obj.guideObject.transformTarget.localPosition;

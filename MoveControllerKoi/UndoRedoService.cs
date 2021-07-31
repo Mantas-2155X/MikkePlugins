@@ -3,7 +3,7 @@ using Studio;
 using UnityEngine;
 
 namespace MoveController {
-    class UndoRedoService {
+    public class UndoRedoService {
         public Vector3 MoveDelta = Vector3.zero;
         public Vector3 RotationDelta = Vector3.zero;
         public readonly Dictionary<int, Vector3> OldFkRotations = new Dictionary<int, Vector3>();

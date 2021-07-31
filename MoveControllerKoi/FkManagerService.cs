@@ -3,7 +3,7 @@ using System.Linq;
 using Studio;
 
 namespace MoveController {
-    class FkManagerService {
+    public class FkManagerService {
         private int activeBoneIndex = 0;
         int startBoneIndex = -1;
         int endBoneIndex = -1;

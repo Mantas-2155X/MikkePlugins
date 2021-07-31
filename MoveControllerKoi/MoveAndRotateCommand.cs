@@ -6,7 +6,7 @@ using System.Text;
 
 namespace MoveController
 {
-    class MoveAndRotateAddCommand : Studio.ICommand
+    public class MoveAndRotateAddCommand : Studio.ICommand
     {
         public GuideCommand.RotationAddCommand rotateCom;
         public GuideCommand.MoveAddCommand moveCom;
@@ -36,7 +36,7 @@ namespace MoveController
         }
     }
 
-    class MoveAndRotateEqualsCommand : Studio.ICommand
+    public class MoveAndRotateEqualsCommand : Studio.ICommand
     {
         public GuideCommand.RotationEqualsCommand rotateCom;
         public GuideCommand.MoveAddCommand moveCom;

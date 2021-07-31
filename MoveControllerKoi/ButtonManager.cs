@@ -81,7 +81,7 @@ namespace MoveController {
 
                 dragging = true;
                 ((PointerEventData) data).useDragThreshold = false;
-                Singleton<Studio.Studio>.Instance.cameraCtrl.isCursorLock = false;
+                MoveCtrlPlugin.cameraControl.isCursorLock = false;
                 if (Singleton<GameCursor>.IsInstance()) {
                     Singleton<GameCursor>.Instance.SetCursorLock(true);
                 }
@@ -110,7 +110,7 @@ namespace MoveController {
                     return;
                 }
 
-                Singleton<Studio.Studio>.Instance.cameraCtrl.isCursorLock = true;
+                MoveCtrlPlugin.cameraControl.isCursorLock = true;
                 if (Singleton<GameCursor>.IsInstance())
                     Singleton<GameCursor>.Instance.SetCursorLock(false);
                 liftColor(button);

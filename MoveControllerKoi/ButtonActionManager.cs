@@ -18,7 +18,11 @@ namespace MoveController {
         }
 
         public Action<BaseEventData> ResetFk() {
-            return data => { moveObjectService.resetFKRotation(fkManagerService.getActiveBones()); };
+            return data =>
+            {
+                if (window.AllSelected.Count > 0)
+                    moveObjectService.resetFKRotation(fkManagerService.getActiveBones());
+            };
         }
 
         public Action<BaseEventData> Move2Camera() {
@@ -30,7 +34,7 @@ namespace MoveController {
         public DragButtonAction Animation() {
             var dba = new DragButtonAction();
             dba.StartDrag = data => { };
-            dba.Drag = data => { moveObjectService.controlAnimation(window.AllSelected, window.getMouseInput()); };
+            dba.Drag = data => { moveObjectService.controlAnimation(window.AllSelected, MoveCtrlWindow.getMouseInput()); };
             dba.EndDrag = data => { };
             //TODO: undo?
             return dba;
@@ -51,13 +55,13 @@ namespace MoveController {
 
             dba.Drag = data => {
                 if (IsRightButton(data)) {
-                    var input = window.getMouseInput();
+                    var input = MoveCtrlWindow.getMouseInput();
                     var input3d = new Vector3(input.x, input.x, input.x);
                     moveObjectService.resizeObj(window.AllSelected, input3d);
                 } else {
-                    var input = window.getMouseInput();
+                    var input = MoveCtrlWindow.getMouseInput();
                     var input3d = Vector3.Scale(new Vector3(input.x, input.y, input.y), inputMask);
-                    var mappedInput = window.getCameraQuaternion() * input3d;
+                    var mappedInput = MoveCtrlWindow.getCameraQuaternion() * input3d;
                     if (moveObjectService.IkSelected) {
                         moveObjectService.MoveIk(mappedInput);
                     } else {
@@ -91,7 +95,7 @@ namespace MoveController {
             };
 
             dba.Drag = data => {
-                var input = window.getMouseInput();
+                var input = MoveCtrlWindow.getMouseInput();
                 var input3d = Vector3.Scale(new Vector3(input.x, input.y, input.y), inputMask);
                 if (moveObjectService.IkSelected) {
                     moveObjectService.MoveIk(input3d);
@@ -115,15 +119,15 @@ namespace MoveController {
             var dba = new DragButtonAction();
             dba.StartDrag = data => { undoRedoService.StoreOldRotation(window.AllSelected); };
             dba.Drag = data => {
-                Transform tc = Camera.main.transform;
+                Transform tc = MoveCtrlPlugin.camera.transform;
                 var right = tc.right;
-                var input = window.getMouseInput();
+                var input = MoveCtrlWindow.getMouseInput();
                 moveObjectService.RotateByCamera(window.AllSelected, right, -input, true);
             };
             dba.EndDrag = data => { undoRedoService.CreateUndoForRotation(window.AllSelected); };
 
             dba.Click = data => {
-                Transform tc = Camera.main.transform;
+                Transform tc = MoveCtrlPlugin.camera.transform;
                 var right = tc.right;
                 var rightTurn = IsRightButton(data);
                 var input = new Vector3(rightTurn ? -90 : 90, 0, 0);
@@ -137,7 +141,7 @@ namespace MoveController {
             var dba = new DragButtonAction();
             dba.StartDrag = data => { undoRedoService.StoreOldRotation(window.AllSelected); };
             dba.Drag = data => {
-                var input = window.getMouseInput();
+                var input = MoveCtrlWindow.getMouseInput();
                 var relativeRotation = IsRightButton(data);
 
                 var input3d = new Vector3(0, -input.x, 0);
@@ -169,14 +173,14 @@ namespace MoveController {
             var dba = new DragButtonAction();
             dba.StartDrag = data => { undoRedoService.StoreOldRotation(window.AllSelected); };
             dba.Drag = data => {
-                Transform tc = Camera.main.transform;
+                Transform tc = MoveCtrlPlugin.camera.transform;
                 var forward = tc.forward;
-                var input = window.getMouseInput();
+                var input = MoveCtrlWindow.getMouseInput();
                 moveObjectService.RotateByCamera(window.AllSelected, forward, -input, true);
             };
             dba.EndDrag = data => { undoRedoService.CreateUndoForRotation(window.AllSelected); };
             dba.Click = data => {
-                Transform tc = Camera.main.transform;
+                Transform tc = MoveCtrlPlugin.camera.transform;
                 var forward = tc.forward;
                 var rightTurn = IsRightButton(data);
                 var input = new Vector3(rightTurn ? -90 : 90, 0, 0);
@@ -190,7 +194,7 @@ namespace MoveController {
             var dba = new DragButtonAction();
 
             dba.StartDrag = data => {
-                if (fkManagerService.ActiveBone != null) {
+                if (fkManagerService.ActiveBone != null && window.AllSelected.Count > 0) {
                     undoRedoService.StoreOldFkRotation(fkManagerService.getActiveBones());
                 } else if (moveObjectService.CheckIfIkRotSelected()) {
                     undoRedoService.StoreOldIkRotation();
@@ -199,9 +203,9 @@ namespace MoveController {
                 }
             };
             dba.Drag = data => {
-                var input = window.getMouseInput();
+                var input = MoveCtrlWindow.getMouseInput();
                 var input3d = Vector3.Scale(new Vector3(input.x, input.x, input.x), inputMask);
-                if (fkManagerService.ActiveBone != null) {
+                if (fkManagerService.ActiveBone != null && window.AllSelected.Count > 0) {
                     moveObjectService.rotateFk(fkManagerService.getActiveBones(), input3d, true);
                 } else if(moveObjectService.CheckIfIkRotSelected()) {
                     moveObjectService.RotateIk(input3d);
@@ -210,7 +214,7 @@ namespace MoveController {
                 }
             };
             dba.EndDrag = data => {
-                if (fkManagerService.ActiveBone != null) {
+                if (fkManagerService.ActiveBone != null && window.AllSelected.Count > 0) {
                     undoRedoService.CreateUndoForFk(fkManagerService.getActiveBones());
                 } else if (moveObjectService.CheckIfIkRotSelected()) {
                     undoRedoService.CreateUndoForIkRotation();
@@ -223,7 +227,7 @@ namespace MoveController {
                 var rightTurn = IsRightButton(data);
                 var input = new Vector3(rightTurn ? 90 : -90, 0, 0);
                 var input3d = Vector3.Scale(new Vector3(input.x, input.x, input.x), inputMask);
-                if (fkManagerService.ActiveBone != null) {
+                if (fkManagerService.ActiveBone != null && window.AllSelected.Count > 0) {
                     moveObjectService.rotateFk(fkManagerService.getActiveBones(), input3d, false);
                     undoRedoService.CreateUndoForFk(fkManagerService.getActiveBones());
                 } else {

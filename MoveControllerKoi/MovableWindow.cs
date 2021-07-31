@@ -18,7 +18,7 @@ namespace MoveController {
         public RectTransform toDrag;
         public bool preventCameraControl;
 
-        protected override void Awake()
+        public override void Awake()
         {
             base.Awake();
             this._cameraControl = GameObject.FindObjectOfType<BaseCameraControl>();
