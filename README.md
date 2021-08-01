@@ -15,7 +15,7 @@ This plugin makes moving, rotating of objects in the CharaStudio easier and allo
 
 **Installation:**  
 * Unzip `MoveControllerKOI.zip` into your game directory.  
-* You should see `MoveControllerKOI.dll` in `BepInEx/Plugins/2155X/`.  
+* You should see `MoveControllerKOI.dll` in `BepInEx/Plugins/`.  
 
 **Configuration:**
 * Check `Plugin Settings` for configuration
