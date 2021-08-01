@@ -64,10 +64,6 @@
       <HintPath>..\packages\IllusionLibs.BepInEx.Harmony.2.5.2\lib\net35\BepInEx.Harmony.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="KKABMX, Version=4.4.2.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\packages\ABMX.KKABMX.4.4.2\lib\net35\KKABMX.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\packages\IllusionLibs.Koikatu.UnityEngine.5.6.2.4\lib\net35\UnityEngine.dll</HintPath>
       <Private>False</Private>
