@@ -15,12 +15,9 @@ namespace MoveController
         
         public static Camera camera;
         public static Studio.CameraControl cameraControl;
-        
         public static TreeNodeCtrl treeNodeController;
-
-        public static MoveObjectService moveObjectService;
-        public static UndoRedoService undoRedoService;
-        public static FkManagerService fkManagerService;
+        
+        public static MoveCtrlWindow window;
         
         public static bool neverHideObjectHandle { get; private set; }
         
@@ -42,12 +39,7 @@ namespace MoveController
             camera = Camera.main;
             cameraControl = FindObjectOfType<Studio.CameraControl>();
             treeNodeController = Studio.Studio.Instance.treeNodeCtrl;
-
-            undoRedoService = new UndoRedoService();
-            moveObjectService = new MoveObjectService(undoRedoService);
-            undoRedoService.MoveObjectService = moveObjectService;
-            fkManagerService = new FkManagerService();
-
+            
             new GameObject(GUID).AddComponent<MoveCtrlWindow>();
         }
         

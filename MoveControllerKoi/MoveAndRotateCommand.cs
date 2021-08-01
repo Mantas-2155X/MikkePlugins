@@ -6,10 +6,10 @@ using System.Text;
 
 namespace MoveController
 {
-    public class MoveAndRotateAddCommand : Studio.ICommand
+    public class MoveAndRotateAddCommand : ICommand
     {
-        public GuideCommand.RotationAddCommand rotateCom;
-        public GuideCommand.MoveAddCommand moveCom;
+        private readonly GuideCommand.RotationAddCommand rotateCom;
+        public readonly GuideCommand.MoveAddCommand moveCom;
 
         public MoveAndRotateAddCommand(GuideCommand.RotationAddCommand rotateCom, GuideCommand.MoveAddCommand moveCom)
         {
@@ -36,10 +36,10 @@ namespace MoveController
         }
     }
 
-    public class MoveAndRotateEqualsCommand : Studio.ICommand
+    public class MoveAndRotateEqualsCommand : ICommand
     {
-        public GuideCommand.RotationEqualsCommand rotateCom;
-        public GuideCommand.MoveAddCommand moveCom;
+        private readonly GuideCommand.RotationEqualsCommand rotateCom;
+        private readonly GuideCommand.MoveAddCommand moveCom;
 
         public MoveAndRotateEqualsCommand(GuideCommand.RotationEqualsCommand rotateCom, GuideCommand.MoveAddCommand moveCom)
         {

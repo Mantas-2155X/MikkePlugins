@@ -9,7 +9,7 @@ using Resources = MoveController.Properties.Resources;
 
 namespace MoveController 
 {
-    public sealed class MoveCtrlWindow : MonoBehaviour 
+    public class MoveCtrlWindow : MonoBehaviour 
     {
         private bool IsVisible;
 
@@ -26,6 +26,8 @@ namespace MoveController
         
         private void Start()
         {
+            MoveCtrlPlugin.window = this;
+            
             SpawnGUI();
         }
 
@@ -51,7 +53,7 @@ namespace MoveController
             toggleButton(AnimControlButton, AllSelected.Any() && (AllSelected[0] is OCIChar || (AllSelected[0] is OCIItem item && item.isAnime)));
             
             //FK target
-            var fkActive = MoveCtrlPlugin.fkManagerService != null && MoveCtrlPlugin.fkManagerService.checkIfFkNodeSelected() && AllSelected.Any();
+            var fkActive = FkManagerService.checkIfFkNodeSelected() && AllSelected.Any();
             if (fkActive)
                 AllSelected[0].guideObject.visible = false | MoveCtrlPlugin.neverHideObjectHandle;
             
@@ -139,35 +141,32 @@ namespace MoveController
             var mw = bg.gameObject.AddComponent<MovableWindow>();
             mw.toDrag = bg;
             mw.preventCameraControl = true;
+            
+            ButtonManager.DragButton(GUI.transform.Find("MovePanel/MoveXZ").GetComponent<Button>(), ButtonActionManager.MoveXZ(new Vector3(1, 0, 1)));
+            ButtonManager.DragButton(GUI.transform.Find("MovePanel/MoveY").GetComponent<Button>(), ButtonActionManager.MoveY(new Vector3(0, 1, 0)));
 
-            var buttonManager = new ButtonManager(MoveCtrlPlugin.fkManagerService);
-            var buttonActionManager = new ButtonActionManager(MoveCtrlPlugin.moveObjectService, MoveCtrlPlugin.fkManagerService, this, MoveCtrlPlugin.undoRedoService);
+            ButtonManager.DragButton(GUI.transform.Find("MovePanel/RotateX").GetComponent<Button>(), ButtonActionManager.RotateX());
+            ButtonManager.DragButton(GUI.transform.Find("MovePanel/RotateY").GetComponent<Button>(), ButtonActionManager.RotateY());
+            ButtonManager.DragButton(GUI.transform.Find("MovePanel/RotateZ").GetComponent<Button>(), ButtonActionManager.RotateZ());
 
-            buttonManager.DragButton(GUI.transform.Find("MovePanel/MoveXZ").GetComponent<Button>(), buttonActionManager.MoveXZ(new Vector3(1, 0, 1)));
-            buttonManager.DragButton(GUI.transform.Find("MovePanel/MoveY").GetComponent<Button>(), buttonActionManager.MoveY(new Vector3(0, 1, 0)));
+            ButtonManager.ClickButton(GUI.transform.Find("MovePanel/Move2Cam").GetComponent<Button>(), ButtonActionManager.Move2Camera());
 
-            buttonManager.DragButton(GUI.transform.Find("MovePanel/RotateX").GetComponent<Button>(), buttonActionManager.RotateX());
-            buttonManager.DragButton(GUI.transform.Find("MovePanel/RotateY").GetComponent<Button>(), buttonActionManager.RotateY());
-            buttonManager.DragButton(GUI.transform.Find("MovePanel/RotateZ").GetComponent<Button>(), buttonActionManager.RotateZ());
+            ButtonManager.DragButton(GUI.transform.Find("MovePanel/FkX").GetComponent<Button>(), ButtonActionManager.RotateFk(new Vector3(-1, 0, 0)));
+            ButtonManager.DragButton(GUI.transform.Find("MovePanel/FkY").GetComponent<Button>(), ButtonActionManager.RotateFk(new Vector3(0, -1, 0)));
+            ButtonManager.DragButton(GUI.transform.Find("MovePanel/FkZ").GetComponent<Button>(), ButtonActionManager.RotateFk(new Vector3(0, 0, -1)));
 
-            buttonManager.ClickButton(GUI.transform.Find("MovePanel/Move2Cam").GetComponent<Button>(), buttonActionManager.Move2Camera());
-
-            buttonManager.DragButton(GUI.transform.Find("MovePanel/FkX").GetComponent<Button>(), buttonActionManager.RotateFk(new Vector3(-1, 0, 0)));
-            buttonManager.DragButton(GUI.transform.Find("MovePanel/FkY").GetComponent<Button>(), buttonActionManager.RotateFk(new Vector3(0, -1, 0)));
-            buttonManager.DragButton(GUI.transform.Find("MovePanel/FkZ").GetComponent<Button>(), buttonActionManager.RotateFk(new Vector3(0, 0, -1)));
-
-            AnimControlButton = buttonManager.DragButton(GUI.transform.Find("MovePanel/AnimControl").GetComponent<Button>(), buttonActionManager.Animation());
+            AnimControlButton = ButtonManager.DragButton(GUI.transform.Find("MovePanel/AnimControl").GetComponent<Button>(), ButtonActionManager.Animation());
             toggleButton(AnimControlButton, false);
 
-            ResetFkButton = buttonManager.ClickButton(GUI.transform.Find("MovePanel/ResetFk").GetComponent<Button>(), buttonActionManager.ResetFk());
+            ResetFkButton = ButtonManager.ClickButton(GUI.transform.Find("MovePanel/ResetFk").GetComponent<Button>(), ButtonActionManager.ResetFk());
             toggleButton(ResetFkButton, false);
 
-            buttonManager.slider(GUI.transform.Find("MovePanel/FactorSlider").GetComponent<Slider>(), buttonActionManager.UpdateSpeedFactors());
-            buttonManager.slider(GUI.transform.Find("MovePanel/FKSizeSlider").GetComponent<Slider>(), buttonActionManager.UpdateFkScale());
+            ButtonManager.slider(GUI.transform.Find("MovePanel/FactorSlider").GetComponent<Slider>(), ButtonActionManager.UpdateSpeedFactors());
+            ButtonManager.slider(GUI.transform.Find("MovePanel/FKSizeSlider").GetComponent<Slider>(), ButtonActionManager.UpdateFkScale());
 
             GUI.gameObject.AddComponent<EventTrigger>();
             var trigger = GUI.gameObject.GetComponent<EventTrigger>();
-            trigger.triggers.Add(buttonManager.getScrollTrigger());
+            trigger.triggers.Add(ButtonManager.getScrollTrigger());
 
             //use reflection to hack the button
             HackTheWorld(icon);
