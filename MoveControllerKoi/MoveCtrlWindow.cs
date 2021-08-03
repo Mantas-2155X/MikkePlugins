@@ -40,9 +40,18 @@ namespace MoveController
                 return;
             
             var treeNodeObjects = MoveCtrlPlugin.treeNodeController.selectNodes;
-            if (treeNodeObjects == null)
+            if (treeNodeObjects.IsNullOrEmpty())
                 return;
-
+            
+            var selectNode = treeNodeObjects[0];
+            
+            if (AccessoryCtrlService.AccMoveInfos.TryGetValue(selectNode, out AccMoveInfo value)) 
+            {
+                AccessoryCtrlService.Current = value;
+                return;
+            }
+            AccessoryCtrlService.Current = null;
+            
             foreach (var node in treeNodeObjects)
                 if (Studio.Studio.Instance.dicInfo.TryGetValue(node, out var info))
                     AllSelected.Add(info);
@@ -90,7 +99,7 @@ namespace MoveController
             button.GetComponentInChildren<Text>().color = state ? Color.black : Color.gray;
         }
 
-        public void HackTheWorld(Texture2D icon) 
+        public void HackTheWorld(Texture2D moveCtrlIcon, Texture2D accsCtrlIcon) 
         {
             var studioScene = FindObjectOfType<StudioScene>();
             if (studioScene == null)
@@ -119,17 +128,41 @@ namespace MoveController
             MoveCtrlButtonImage = controllerButton.targetGraphic as Image;
             
             if (MoveCtrlButtonImage != null)
-                MoveCtrlButtonImage.sprite = Sprite.Create(icon, new Rect(0f, 0f, 32, 32), new Vector2(16, 16));
+                MoveCtrlButtonImage.sprite = Sprite.Create(moveCtrlIcon, new Rect(0f, 0f, 32, 32), new Vector2(16, 16));
 
             buttonTrav.SetValue(Instantiate(controllerButton));
+            
+            var original = GameObject.Find("StudioScene").transform.Find("Canvas Object List/Image Bar/Button Remove").GetComponent<RectTransform>();
+            var accCtrlButton = Instantiate(original.gameObject).GetComponent<Button>();
+            
+            accCtrlButton.name = "Button Accessories";
+            
+            var accCtrlButtonRectTransform = accCtrlButton.transform as RectTransform;
+            if (accCtrlButtonRectTransform == null)
+                return;
+            
+            accCtrlButtonRectTransform.SetParent(original.parent, true);
+            accCtrlButtonRectTransform.localScale = original.localScale;
+            
+            accCtrlButtonRectTransform.anchoredPosition = original.anchoredPosition + new Vector2(-48f, 0f);
+            
+            var accCtrlButtonImg = accCtrlButton.targetGraphic as Image;
+            if (accCtrlButtonImg == null)
+                return;
+            
+            accCtrlButtonImg.sprite = Sprite.Create(accsCtrlIcon, new Rect(0f, 0f, 32, 32), new Vector2(16, 16));
+
+            accCtrlButton.interactable = true;
+            accCtrlButton.onClick.AddListener(() => AccessoryCtrlService.ToggleNodes(accCtrlButton));
         }
 
         private void SpawnGUI() 
         {
             var bundle = AssetBundle.LoadFromMemory(Resources.objmoveresources);
 
-            //Load icon
-            var icon = bundle.LoadAsset<Texture2D>("Icon-DXT1");
+            //Load icons
+            Texture2D moveCtrlIcon = bundle.LoadAsset<Texture2D>("Icon-DXT1");
+            Texture2D accsCtrlIcon = bundle.LoadAsset<Texture2D>("IconAccsMove");
 
             GUI = Instantiate(bundle.LoadAsset<GameObject>("MoveCanvas")).GetComponent<Canvas>();
             GUI.gameObject.SetActive(IsVisible);
@@ -169,7 +202,7 @@ namespace MoveController
             trigger.triggers.Add(ButtonManager.getScrollTrigger());
 
             //use reflection to hack the button
-            HackTheWorld(icon);
+            HackTheWorld(moveCtrlIcon, accsCtrlIcon);
         }
     }
 }

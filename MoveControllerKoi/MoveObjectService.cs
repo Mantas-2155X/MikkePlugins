@@ -13,8 +13,8 @@ namespace MoveController
         private static readonly float BaseAnimationSpeedFactor = 0.05f;
         private static readonly float BaseSizeSpeedFactor = 0.03f;
 
-        private static float moveSpeedFactor = BaseMoveSpeedFactor;
-        private static float rotationSpeedFactor = BaseRotationSpeedFactor;
+        public static float moveSpeedFactor = BaseMoveSpeedFactor;
+        public static float rotationSpeedFactor = BaseRotationSpeedFactor;
         private static float sizeSpeedFactor = BaseAnimationSpeedFactor;
         private static float animationSpeedFactor = BaseSizeSpeedFactor;
         
