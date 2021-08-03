@@ -28,3 +28,6 @@ This plugin makes moving, rotating of objects in the CharaStudio easier and allo
 **Credits:**
 * Thanks to [Mikke](https://bitbucket.org/mikkemikke/mikkeplugins/src/master/) for making the plugin and allowing this port to Koi happen.
 * Thanks to corruptedX#9614 for commissioning this port and making it available for everyone to use.
+
+**License:**
+* The original project does not have a license, which means Mikke owns the code. I have ported this with his permission, the license stays the same - only Mikke owns this code with permission for me to update and release it
