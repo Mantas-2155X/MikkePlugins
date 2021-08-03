@@ -3,6 +3,7 @@
 This plugin makes moving, rotating of objects in the CharaStudio easier and allows rotation of multiple FK nodes at the same time.
 
 **Features:**  
+* Move accessories as if they are studio items
 * Select multiple FK nodes and interact with them
 * Movable UI with ability to scale it
 * Fields to move, rotate objects easily.
