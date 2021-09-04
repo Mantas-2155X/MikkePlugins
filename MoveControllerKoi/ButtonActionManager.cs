@@ -188,7 +188,7 @@ namespace MoveController
                 },
                 Drag = data =>
                 {
-                    Transform tc = MoveCtrlPlugin.camera.transform;
+                    var tc = MoveCtrlPlugin.camera.transform;
                     var right = tc.right;
                     var input = MoveCtrlWindow.getMouseInput();
                     if (AccessoryCtrlService.IsAccessoryControl()) 
@@ -213,7 +213,7 @@ namespace MoveController
                 },
                 Click = data =>
                 {
-                    Transform tc = MoveCtrlPlugin.camera.transform;
+                    var tc = MoveCtrlPlugin.camera.transform;
                     var right = tc.right;
                     var rightTurn = IsRightButton(data);
                     var input = new Vector3(rightTurn ? -90 : 90, 0, 0);
@@ -305,7 +305,7 @@ namespace MoveController
                 },
                 Drag = data =>
                 {
-                    Transform tc = MoveCtrlPlugin.camera.transform;
+                    var tc = MoveCtrlPlugin.camera.transform;
                     var forward = tc.forward;
                     var input = MoveCtrlWindow.getMouseInput();
                     if (AccessoryCtrlService.IsAccessoryControl()) 
@@ -331,7 +331,7 @@ namespace MoveController
                 },
                 Click = data =>
                 {
-                    Transform tc = MoveCtrlPlugin.camera.transform;
+                    var tc = MoveCtrlPlugin.camera.transform;
                     var forward = tc.forward;
                     var rightTurn = IsRightButton(data);
                     var input = new Vector3(rightTurn ? -90 : 90, 0, 0);
@@ -353,7 +353,7 @@ namespace MoveController
                     { 
                         AccessoryCtrlService.InitUndoRotate();
                     }
-                    else if (FkManagerService.ActiveBone != null && MoveCtrlPlugin.window.AllSelected.Count > 0)
+                    else if (FkManagerService.ActiveBone != null)
                     {
                         UndoRedoService.StoreOldFkRotation(
                             FkManagerService.getActiveBones());
@@ -375,7 +375,7 @@ namespace MoveController
                     { 
                         AccessoryCtrlService.RotateAccessory(input3d, true);
                     }
-                    else if (FkManagerService.ActiveBone != null && MoveCtrlPlugin.window.AllSelected.Count > 0)
+                    else if (FkManagerService.ActiveBone != null)
                     {
                         MoveObjectService.rotateFk(FkManagerService.getActiveBones(),
                             input3d, true);
@@ -396,7 +396,7 @@ namespace MoveController
                     { 
                         AccessoryCtrlService.CreateUndoRotate();
                     }
-                    else if (FkManagerService.ActiveBone != null && MoveCtrlPlugin.window.AllSelected.Count > 0)
+                    else if (FkManagerService.ActiveBone != null)
                     {
                         UndoRedoService.CreateUndoForFk(FkManagerService
                             .getActiveBones());
@@ -421,7 +421,7 @@ namespace MoveController
                         AccessoryCtrlService.RotateAccessory(input3d, false);
                         AccessoryCtrlService.CreateUndoRotate();
                     } 
-                    else if (FkManagerService.ActiveBone != null && MoveCtrlPlugin.window.AllSelected.Count > 0)
+                    else if (FkManagerService.ActiveBone != null)
                     {
                         MoveObjectService.rotateFk(FkManagerService.getActiveBones(),
                             input3d, false);

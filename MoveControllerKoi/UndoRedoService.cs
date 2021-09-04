@@ -16,16 +16,16 @@ namespace MoveController
         
         private static GuideCommand.EqualsInfo[] CreateUndoRotateForAllSelected(List<ObjectCtrlInfo> selectedObjs, bool isResize) 
         {
-            GuideCommand.EqualsInfo[] rotations = new GuideCommand.EqualsInfo[selectedObjs.Count];
-            int i = 0;
+            var rotations = new GuideCommand.EqualsInfo[selectedObjs.Count];
+            var i = 0;
 
-            foreach (ObjectCtrlInfo selected in selectedObjs) 
+            foreach (var selected in selectedObjs) 
             {
-                int dicKey = selected.objectInfo.dicKey;
-                ChangeAmount changeAmount = Studio.Studio.GetChangeAmount(dicKey);
-                if (changeAmount != null && OldRotations.TryGetValue(dicKey, out Vector3 oldValue)) 
+                var dicKey = selected.objectInfo.dicKey;
+                var changeAmount = Studio.Studio.GetChangeAmount(dicKey);
+                if (changeAmount != null && OldRotations.TryGetValue(dicKey, out var oldValue)) 
                 {
-                    GuideCommand.EqualsInfo eqRot = new GuideCommand.EqualsInfo();
+                    var eqRot = new GuideCommand.EqualsInfo();
                     eqRot.dicKey = dicKey;
                     if (isResize) 
                     {
@@ -46,7 +46,7 @@ namespace MoveController
 
         public static void CreateUndoForFk(List<OIBoneInfo> bones) 
         {
-            GuideCommand.EqualsInfo[] undoRotation = TransformUndoForFk(bones, MoveDelta);
+            var undoRotation = TransformUndoForFk(bones, MoveDelta);
             var rotateCom = new GuideCommand.RotationEqualsCommand(undoRotation);
             UndoRedoManager.Instance.Push(rotateCom);
             ResetDelta();
@@ -54,13 +54,13 @@ namespace MoveController
 
         public static void CreateUndoForMove(List<ObjectCtrlInfo> selectedObjs) 
         {
-            GuideCommand.EqualsInfo[] moved = new GuideCommand.EqualsInfo[selectedObjs.Count];
-            for (int i = 0; i < selectedObjs.Count; i++) 
+            var moved = new GuideCommand.EqualsInfo[selectedObjs.Count];
+            for (var i = 0; i < selectedObjs.Count; i++) 
             {
                 var selected = selectedObjs[i];
-                int dicKey = selected.objectInfo.dicKey;
+                var dicKey = selected.objectInfo.dicKey;
 
-                moved[i] = new GuideCommand.EqualsInfo() 
+                moved[i] = new GuideCommand.EqualsInfo
                 {
                     dicKey = dicKey,
                     newValue = selected.guideObject.transformTarget.localPosition,
@@ -79,11 +79,11 @@ namespace MoveController
             var ikGuide = Singleton<GuideObjectManager>.Instance.selectObject;
             if (ikGuide == null) return;
 
-            GuideCommand.EqualsInfo[] moved = new GuideCommand.EqualsInfo[1];
+            var moved = new GuideCommand.EqualsInfo[1];
 
-            int dicKey = ikGuide.dicKey;
+            var dicKey = ikGuide.dicKey;
 
-            moved[0] = new GuideCommand.EqualsInfo() 
+            moved[0] = new GuideCommand.EqualsInfo
             {
                 dicKey = ikGuide.dicKey,
                 newValue = ikGuide.transformTarget.localPosition,
@@ -99,13 +99,13 @@ namespace MoveController
             var ikGuide = Singleton<GuideObjectManager>.Instance.selectObject;
             if (ikGuide == null) return;
 
-            GuideCommand.EqualsInfo[] rotated = new GuideCommand.EqualsInfo[1];
+            var rotated = new GuideCommand.EqualsInfo[1];
 
-            int dicKey = ikGuide.dicKey;
+            var dicKey = ikGuide.dicKey;
 
-            ChangeAmount changeAmount = Studio.Studio.GetChangeAmount(dicKey);
+            var changeAmount = Studio.Studio.GetChangeAmount(dicKey);
 
-            rotated[0] = new GuideCommand.EqualsInfo() 
+            rotated[0] = new GuideCommand.EqualsInfo
             {
                 dicKey = ikGuide.dicKey,
                 newValue = changeAmount.rot,
@@ -118,8 +118,8 @@ namespace MoveController
 
         public static void CreateUndoForRelativeRotation(List<ObjectCtrlInfo> selectedObjs) 
         {
-            MoveAndRotateAddCommand moveAddCom = MoveObjectService.moveAndRotateAllSelected(selectedObjs, -RotationDelta, true);
-            GuideCommand.EqualsInfo[] undoRotation = CreateUndoRotateForAllSelected(selectedObjs, false);
+            var moveAddCom = MoveObjectService.moveAndRotateAllSelected(selectedObjs, -RotationDelta, true);
+            var undoRotation = CreateUndoRotateForAllSelected(selectedObjs, false);
             var rotateCom = new GuideCommand.RotationEqualsCommand(undoRotation);
             UndoRedoManager.Instance.Push(new MoveAndRotateEqualsCommand(rotateCom, moveAddCom.moveCom));
             ResetDelta();
@@ -127,7 +127,7 @@ namespace MoveController
 
         public static void CreateUndoForRotation(List<ObjectCtrlInfo> selectedObjs) 
         {
-            GuideCommand.EqualsInfo[] undoRotation = CreateUndoRotateForAllSelected(selectedObjs, false);
+            var undoRotation = CreateUndoRotateForAllSelected(selectedObjs, false);
             var rotateCom = new GuideCommand.RotationEqualsCommand(undoRotation);
             UndoRedoManager.Instance.Push(rotateCom);
             ResetDelta();
@@ -135,13 +135,13 @@ namespace MoveController
 
         public static void CreateUndoForResize(List<ObjectCtrlInfo> selectedObjs) 
         {
-            GuideCommand.EqualsInfo[] moved = new GuideCommand.EqualsInfo[selectedObjs.Count];
-            for (int i = 0; i < selectedObjs.Count; i++) 
+            var moved = new GuideCommand.EqualsInfo[selectedObjs.Count];
+            for (var i = 0; i < selectedObjs.Count; i++) 
             {
                 var selected = selectedObjs[i];
-                int dicKey = selected.objectInfo.dicKey;
+                var dicKey = selected.objectInfo.dicKey;
 
-                moved[i] = new GuideCommand.EqualsInfo() 
+                moved[i] = new GuideCommand.EqualsInfo
                 {
                     dicKey = dicKey,
                     newValue = selected.objectInfo.changeAmount.scale,
@@ -164,14 +164,14 @@ namespace MoveController
 
         private static GuideCommand.EqualsInfo[] TransformUndoForFk(List<OIBoneInfo> bones, Vector3 moveDelta) 
         {
-            GuideCommand.EqualsInfo[] rotations = new GuideCommand.EqualsInfo[bones.Count];
-            int index = 0;
+            var rotations = new GuideCommand.EqualsInfo[bones.Count];
+            var index = 0;
             foreach (var bone in bones) 
             {
-                GuideCommand.EqualsInfo eqRot = new GuideCommand.EqualsInfo();
+                var eqRot = new GuideCommand.EqualsInfo();
                 eqRot.dicKey = bone.dicKey;
                 eqRot.newValue = bone.changeAmount.rot;
-                if (OldFkRotations.TryGetValue(bone.dicKey, out Vector3 oldValue)) 
+                if (OldFkRotations.TryGetValue(bone.dicKey, out var oldValue)) 
                 {
                     eqRot.oldValue = oldValue;
                 } 
@@ -190,10 +190,10 @@ namespace MoveController
         public static void StoreOldFkRotation(List<OIBoneInfo> bones) 
         {
             OldFkRotations.Clear();
-            foreach (OIBoneInfo bone in bones) 
+            foreach (var bone in bones) 
             {
-                int dicKey = bone.dicKey;
-                ChangeAmount changeAmount = Studio.Studio.GetChangeAmount(dicKey);
+                var dicKey = bone.dicKey;
+                var changeAmount = Studio.Studio.GetChangeAmount(dicKey);
                 if (changeAmount != null) 
                 {
                     OldFkRotations.Add(dicKey, changeAmount.rot);
@@ -205,10 +205,10 @@ namespace MoveController
         public static void StoreOldRotation(List<ObjectCtrlInfo> selectedObjs) 
         {
             OldRotations.Clear();
-            foreach (ObjectCtrlInfo selected in selectedObjs) 
+            foreach (var selected in selectedObjs) 
             {
-                int dicKey = selected.objectInfo.dicKey;
-                ChangeAmount changeAmount = Studio.Studio.GetChangeAmount(dicKey);
+                var dicKey = selected.objectInfo.dicKey;
+                var changeAmount = Studio.Studio.GetChangeAmount(dicKey);
                 if (changeAmount != null) 
                 {
                     OldRotations.Add(dicKey, changeAmount.rot);
@@ -219,10 +219,10 @@ namespace MoveController
         public static void StoreOldSizes(List<ObjectCtrlInfo> selectedObjs) 
         {
             OldRotations.Clear();
-            foreach (ObjectCtrlInfo selected in selectedObjs) 
+            foreach (var selected in selectedObjs) 
             {
-                int dicKey = selected.objectInfo.dicKey;
-                ChangeAmount changeAmount = Studio.Studio.GetChangeAmount(dicKey);
+                var dicKey = selected.objectInfo.dicKey;
+                var changeAmount = Studio.Studio.GetChangeAmount(dicKey);
                 if (changeAmount != null) 
                 {
                     OldSizes.Add(dicKey, changeAmount.scale);
@@ -233,10 +233,10 @@ namespace MoveController
         public static void StoreOldPositions(List<ObjectCtrlInfo> selectedObjs) 
         {
             OldPositions.Clear();
-            foreach (ObjectCtrlInfo selected in selectedObjs) 
+            foreach (var selected in selectedObjs) 
             {
-                int dicKey = selected.objectInfo.dicKey;
-                ChangeAmount changeAmount = Studio.Studio.GetChangeAmount(dicKey);
+                var dicKey = selected.objectInfo.dicKey;
+                var changeAmount = Studio.Studio.GetChangeAmount(dicKey);
                 if (changeAmount != null) 
                 {
                     OldPositions.Add(dicKey, changeAmount.pos);
@@ -250,8 +250,8 @@ namespace MoveController
             var ikGuide = Singleton<GuideObjectManager>.Instance.selectObject;
             if (ikGuide == null) return;
 
-            int dicKey = ikGuide.dicKey;
-            ChangeAmount changeAmount = Studio.Studio.GetChangeAmount(dicKey);
+            var dicKey = ikGuide.dicKey;
+            var changeAmount = Studio.Studio.GetChangeAmount(dicKey);
             if (changeAmount != null) 
             {
                 OldPositions.Add(dicKey, changeAmount.pos);
@@ -264,8 +264,8 @@ namespace MoveController
             var ikGuide = Singleton<GuideObjectManager>.Instance.selectObject;
             if (ikGuide == null) return;
 
-            int dicKey = ikGuide.dicKey;
-            ChangeAmount changeAmount = Studio.Studio.GetChangeAmount(dicKey);
+            var dicKey = ikGuide.dicKey;
+            var changeAmount = Studio.Studio.GetChangeAmount(dicKey);
             if (changeAmount != null) 
             {
                 OldRotations.Add(dicKey, changeAmount.rot);

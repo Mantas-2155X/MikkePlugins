@@ -9,7 +9,7 @@ namespace MoveController
 {
     public static class AccessoryCtrlService 
     {
-        private static readonly Dictionary<string, Tuple<int, int>> parentNodeMap = new Dictionary<string, Tuple<int, int>>() 
+        private static readonly Dictionary<string, Tuple<int, int>> parentNodeMap = new Dictionary<string, Tuple<int, int>>
         {
             {ChaAccessoryDefine.AccessoryParentKey.a_n_hair_pony.ToString(), new Tuple<int, int>(0, 0)},
             {ChaAccessoryDefine.AccessoryParentKey.a_n_hair_twin_L.ToString(), new Tuple<int, int>(0, 1)},
@@ -146,12 +146,12 @@ namespace MoveController
 
         private static void ProcessCharacterNode(OCIChar chara, TreeNodeObject charaNode) 
         {
-            TreeNodeCtrl treeNodeCtrl = Studio.Studio.Instance.treeNodeCtrl;
+            var treeNodeCtrl = Studio.Studio.Instance.treeNodeCtrl;
             var charaInfo = chara.charInfo;
             var accessories = charaInfo.objAccessory;
             var listInfo = charaInfo.infoAccessory;
 
-            for (int index = 0; index < accessories.Length; index++) 
+            for (var index = 0; index < accessories.Length; index++) 
             {
                 if (accessories[index] == null) 
                 {
@@ -236,7 +236,7 @@ namespace MoveController
 
         private static void RotateAcc(ChaControl charaInfo, GameObject accObject, Quaternion newRotation) 
         {
-            Quaternion startRotation = accObject.transform.localRotation;
+            var startRotation = accObject.transform.localRotation;
             accObject.transform.localRotation = newRotation;
 
             var change = (newRotation.eulerAngles - startRotation.eulerAngles);
@@ -252,9 +252,9 @@ namespace MoveController
             var charaInfo = Current.Chara.charInfo;
             var rof = useSpeedfactor ? rotAmount * MoveObjectService.rotationSpeedFactor : rotAmount;
 
-            Quaternion startRotation = accObject.transform.localRotation;
+            var startRotation = accObject.transform.localRotation;
 
-            Quaternion newRotation = startRotation * Quaternion.Euler(rof);
+            var newRotation = startRotation * Quaternion.Euler(rof);
             RotateAcc(charaInfo, accObject, newRotation);
         }
 
@@ -308,7 +308,7 @@ namespace MoveController
 
         private static void SetParent(TreeNodeObject node, TreeNodeObject parent) 
         {
-            TreeNodeCtrl treeNodeCtrl = Studio.Studio.Instance.treeNodeCtrl;
+            var treeNodeCtrl = Studio.Studio.Instance.treeNodeCtrl;
             if (node == null) 
             {
                 return;

@@ -45,7 +45,7 @@ namespace MoveController
             
             var selectNode = treeNodeObjects[0];
             
-            if (AccessoryCtrlService.AccMoveInfos.TryGetValue(selectNode, out AccMoveInfo value)) 
+            if (AccessoryCtrlService.AccMoveInfos.TryGetValue(selectNode, out var value)) 
             {
                 AccessoryCtrlService.Current = value;
                 return;
@@ -161,8 +161,8 @@ namespace MoveController
             var bundle = AssetBundle.LoadFromMemory(Resources.objmoveresources);
 
             //Load icons
-            Texture2D moveCtrlIcon = bundle.LoadAsset<Texture2D>("Icon-DXT1");
-            Texture2D accsCtrlIcon = bundle.LoadAsset<Texture2D>("IconAccsMove");
+            var moveCtrlIcon = bundle.LoadAsset<Texture2D>("Icon-DXT1");
+            var accsCtrlIcon = bundle.LoadAsset<Texture2D>("IconAccsMove");
 
             GUI = Instantiate(bundle.LoadAsset<GameObject>("MoveCanvas")).GetComponent<Canvas>();
             GUI.gameObject.SetActive(IsVisible);

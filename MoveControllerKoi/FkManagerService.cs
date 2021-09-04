@@ -6,7 +6,7 @@ namespace MoveController
 {
     public static class FkManagerService 
     {
-        private static int activeBoneIndex = 0;
+        private static int activeBoneIndex;
         private static int startBoneIndex = -1;
         private static int endBoneIndex = -1;
 
@@ -14,13 +14,13 @@ namespace MoveController
 
         public static OCIChar.BoneInfo ActiveBone { get; set; }
 
-        public static void setBones(List<OCIChar.BoneInfo> _bones, int index) 
+        private static void setBones(List<OCIChar.BoneInfo> _bones, int index) 
         {
             bones = _bones;
             activeBoneIndex = index;
         }
 
-        internal static void reset() 
+        private static void reset() 
         {
             startBoneIndex = -1;
             endBoneIndex = -1;
@@ -30,7 +30,7 @@ namespace MoveController
             }
         }
 
-        public static void reset(OCIChar.BoneInfo activeBone) 
+        private static void reset(OCIChar.BoneInfo activeBone) 
         {
             reset();
             if (!activeBone.guideObject.isActive) 
@@ -150,7 +150,7 @@ namespace MoveController
             
             if (startBoneIndex == -1) 
             {
-                return new List<OIBoneInfo>() {bones[activeBoneIndex].boneInfo};
+                return new List<OIBoneInfo> {bones[activeBoneIndex].boneInfo};
             }
 
             return bones.GetRange(startBoneIndex, endBoneIndex - startBoneIndex + 1).Select(b => b.boneInfo).ToList();
@@ -158,7 +158,7 @@ namespace MoveController
 
         internal static void updateFkScale(float x) 
         {
-            List<OCIChar.BoneInfo> localBones = bones;
+            var localBones = bones;
 
             if (localBones == null && GuideObjectManager.Instance.selectObject != null) 
             {
@@ -184,16 +184,16 @@ namespace MoveController
             {
                 if (tempSel is OCIItem) 
                 {
-                    OCIItem selected = tempSel as OCIItem;
-                    if (selected.isFK && selected.itemFKCtrl.enabled == true) 
+                    var selected = tempSel as OCIItem;
+                    if (selected.isFK && selected.itemFKCtrl.enabled) 
                     {
                         bones = selected.listBones;
                     }
                 } 
                 else if (tempSel is OCIChar) 
                 {
-                    OCIChar selected = tempSel as OCIChar;
-                    if (selected.fkCtrl.enabled == true) 
+                    var selected = tempSel as OCIChar;
+                    if (selected.fkCtrl.enabled) 
                     {
                         bones = selected.listBones;
                     }
@@ -205,7 +205,7 @@ namespace MoveController
 
         internal static bool checkIfFkNodeSelected() 
         {
-            GuideObject guide = GuideObjectManager.Instance.selectObject;
+            var guide = GuideObjectManager.Instance.selectObject;
             if (ActiveBone != null && guide == ActiveBone.guideObject) 
             {
                 return true;
@@ -218,9 +218,9 @@ namespace MoveController
                     bones = getBonesIfExist(guide);
                     if (bones != null) 
                     {
-                        for (int i = 0; i < bones.Count; i++) 
+                        for (var i = 0; i < bones.Count; i++) 
                         {
-                            OCIChar.BoneInfo bone = bones[i];
+                            var bone = bones[i];
                             if (bone.guideObject == GuideObjectManager.Instance.selectObject) 
                             {
                                 setBones(bones, i);

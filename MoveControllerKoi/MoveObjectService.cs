@@ -42,7 +42,7 @@ namespace MoveController
 
             UndoRedoService.StoreOldPositions(selectedObjs);
 
-            Vector3 primaryOffset = selectedObjs[0].guideObject.transformTarget.position;
+            var primaryOffset = selectedObjs[0].guideObject.transformTarget.position;
 
             foreach (var obj in selectedObjs) 
             {
@@ -66,7 +66,7 @@ namespace MoveController
         {
             try 
             {
-                foreach (ObjectCtrlInfo ctrlInfo in selectedObjs) 
+                foreach (var ctrlInfo in selectedObjs) 
                 {
                     Animator animator = null;
                     if (ctrlInfo is OCIChar ociChar) 
@@ -104,13 +104,13 @@ namespace MoveController
 
         public static void resizeObj(List<ObjectCtrlInfo> selectedObjs, Vector3 sizeAmount) 
         {
-            Vector3 sof = sizeAmount * sizeSpeedFactor;
-            GuideCommand.EqualsInfo[] resizeCommands = new GuideCommand.EqualsInfo[selectedObjs.Count];
-            int i = 0;
+            var sof = sizeAmount * sizeSpeedFactor;
+            var resizeCommands = new GuideCommand.EqualsInfo[selectedObjs.Count];
+            var i = 0;
             foreach (var obj in selectedObjs) 
             {
-                Vector3 currentSize = obj.objectInfo.changeAmount.scale;
-                GuideCommand.EqualsInfo eqSize = new GuideCommand.EqualsInfo();
+                var currentSize = obj.objectInfo.changeAmount.scale;
+                var eqSize = new GuideCommand.EqualsInfo();
                 eqSize.dicKey = obj.objectInfo.dicKey;
                 eqSize.oldValue = currentSize;
                 eqSize.newValue = currentSize + sof;
@@ -152,11 +152,11 @@ namespace MoveController
 
             var amount = rotAmount * rotationSpeedFactor;
 
-            GuideCommand.AddInfo[] rotated = new GuideCommand.AddInfo[1];
+            var rotated = new GuideCommand.AddInfo[1];
 
-            int dicKey = ikGuide.dicKey;
+            var dicKey = ikGuide.dicKey;
 
-            rotated[0] = new GuideCommand.AddInfo() 
+            rotated[0] = new GuideCommand.AddInfo
             {
                 value = amount,
                 dicKey = dicKey
@@ -168,10 +168,10 @@ namespace MoveController
 
         public static GuideCommand.AddInfo[] TransformAllSelected(List<ObjectCtrlInfo> selectedObjs, Vector3 Amount) 
         {
-            GuideCommand.AddInfo[] moves = new GuideCommand.AddInfo[selectedObjs.Count];
-            for (int i = 0; i < selectedObjs.Count; i++) 
+            var moves = new GuideCommand.AddInfo[selectedObjs.Count];
+            for (var i = 0; i < selectedObjs.Count; i++) 
             {
-                GuideCommand.AddInfo addMove = new GuideCommand.AddInfo();
+                var addMove = new GuideCommand.AddInfo();
                 addMove.dicKey = selectedObjs.ElementAt(i).objectInfo.dicKey;
                 addMove.value = Amount;
                 moves[i] = addMove;
@@ -182,20 +182,20 @@ namespace MoveController
 
         public static void rotateFk(List<OIBoneInfo> bones, Vector3 rotAmount, bool useSpeedFactor) 
         {
-            GuideCommand.EqualsInfo[] moves = new GuideCommand.EqualsInfo[bones.Count];
-            int index = 0;
+            var moves = new GuideCommand.EqualsInfo[bones.Count];
+            var index = 0;
             foreach (var bone in bones) 
             {
                 var rof = useSpeedFactor ? rotAmount * rotationSpeedFactor : rotAmount;
-                Vector3 currentBoneRotation = bone.changeAmount.rot;
+                var currentBoneRotation = bone.changeAmount.rot;
 
-                Vector3 eulerAngles = (Quaternion.Euler(currentBoneRotation) * Quaternion.Euler(rof)).eulerAngles;
+                var eulerAngles = (Quaternion.Euler(currentBoneRotation) * Quaternion.Euler(rof)).eulerAngles;
                 eulerAngles.x %= 360f;
                 eulerAngles.y %= 360f;
                 eulerAngles.z %= 360f;
 
 
-                GuideCommand.EqualsInfo addMove = new GuideCommand.EqualsInfo();
+                var addMove = new GuideCommand.EqualsInfo();
                 addMove.dicKey = bone.dicKey; //
                 addMove.newValue = eulerAngles;
                 addMove.oldValue = currentBoneRotation;
@@ -221,19 +221,19 @@ namespace MoveController
         {
             var rof = useSpeedFactor ? rotAmount * rotationSpeedFactor : rotAmount;
             UndoRedoService.RotationDelta += rof;
-            GuideCommand.EqualsInfo[] moves = new GuideCommand.EqualsInfo[selectedObjs.Count];
-            int index = 0;
+            var moves = new GuideCommand.EqualsInfo[selectedObjs.Count];
+            var index = 0;
             foreach (var obj in selectedObjs) 
             {
-                Vector3 currentBoneRotation = obj.objectInfo.changeAmount.rot;
+                var currentBoneRotation = obj.objectInfo.changeAmount.rot;
 
-                Vector3 eulerAngles = (Quaternion.Euler(currentBoneRotation) * Quaternion.Euler(rof)).eulerAngles;
+                var eulerAngles = (Quaternion.Euler(currentBoneRotation) * Quaternion.Euler(rof)).eulerAngles;
                 eulerAngles.x %= 360f;
                 eulerAngles.y %= 360f;
                 eulerAngles.z %= 360f;
 
 
-                GuideCommand.EqualsInfo addMove = new GuideCommand.EqualsInfo();
+                var addMove = new GuideCommand.EqualsInfo();
                 addMove.dicKey = obj.objectInfo.dicKey;
                 addMove.newValue = eulerAngles;
                 addMove.oldValue = currentBoneRotation;
@@ -249,10 +249,10 @@ namespace MoveController
 
         public static void RotateRelative(List<ObjectCtrlInfo> selectedObjs, Vector3 rotAmount) 
         {
-            Vector3 rof = rotAmount * rotationSpeedFactor;
+            var rof = rotAmount * rotationSpeedFactor;
             UndoRedoService.RotationDelta += rof;
 
-            MoveAndRotateAddCommand moveAddCom = moveAndRotateAllSelected(selectedObjs, rof, false);
+            var moveAddCom = moveAndRotateAllSelected(selectedObjs, rof, false);
             if (moveAddCom != null) 
             {
                 moveAddCom.Do();
@@ -263,7 +263,7 @@ namespace MoveController
         {
             var amount = useSpeedFactor ? rotAmount * rotationSpeedFactor : rotAmount;
             // foreach (GuideObject guideObject in Singleton<GuideObjectManager>.Instance.selectObjects.Where(v => v.enableRot))
-            foreach (GuideObject guideObject in windowAllSelected.ConvertAll(oc => oc.guideObject))
+            foreach (var guideObject in windowAllSelected.ConvertAll(oc => oc.guideObject))
                 guideObject.Rotation(angle, amount.x);
         }
 
@@ -274,28 +274,28 @@ namespace MoveController
                 return null;
             }
 
-            GuideCommand.AddInfo[] moves = new GuideCommand.AddInfo[selectedObjs.Count];
-            int primaryDicKey = selectedObjs.ElementAt(0).objectInfo.dicKey;
-            ChangeAmount primaryChangeAmount = Studio.Studio.GetChangeAmount(primaryDicKey);
-            Vector3 primaryPos = primaryChangeAmount.pos;
-            for (int i = 0; i < selectedObjs.Count; i++) 
+            var moves = new GuideCommand.AddInfo[selectedObjs.Count];
+            var primaryDicKey = selectedObjs.ElementAt(0).objectInfo.dicKey;
+            var primaryChangeAmount = Studio.Studio.GetChangeAmount(primaryDicKey);
+            var primaryPos = primaryChangeAmount.pos;
+            for (var i = 0; i < selectedObjs.Count; i++) 
             {
-                GuideCommand.AddInfo eqMove = new GuideCommand.AddInfo();
-                int dickEy = selectedObjs.ElementAt(i).objectInfo.dicKey; //lol
+                var eqMove = new GuideCommand.AddInfo();
+                var dickEy = selectedObjs.ElementAt(i).objectInfo.dicKey; //lol
                 eqMove.dicKey = dickEy;
-                ChangeAmount changeAmount = Studio.Studio.GetChangeAmount(dickEy);
-                Vector3 diff = changeAmount.pos - primaryPos;
-                Vector3 newDiff = Quaternion.Euler(rof) * diff;
+                var changeAmount = Studio.Studio.GetChangeAmount(dickEy);
+                var diff = changeAmount.pos - primaryPos;
+                var newDiff = Quaternion.Euler(rof) * diff;
 
                 eqMove.value = newDiff - diff;
                 moves[i] = eqMove;
             }
 
 
-            GuideCommand.AddInfo[] rots = new GuideCommand.AddInfo[selectedObjs.Count];
-            for (int i = 0; i < selectedObjs.Count; i++) 
+            var rots = new GuideCommand.AddInfo[selectedObjs.Count];
+            for (var i = 0; i < selectedObjs.Count; i++) 
             {
-                GuideCommand.AddInfo addRot = new GuideCommand.AddInfo();
+                var addRot = new GuideCommand.AddInfo();
                 addRot.dicKey = selectedObjs.ElementAt(i).objectInfo.dicKey;
                 addRot.value = rof;
                 rots[i] = addRot;
@@ -312,13 +312,13 @@ namespace MoveController
         {
             // undoRedoService.createUndoForFK(bones);
 
-            GuideCommand.EqualsInfo[] moves = new GuideCommand.EqualsInfo[bones.Count];
-            int index = 0;
+            var moves = new GuideCommand.EqualsInfo[bones.Count];
+            var index = 0;
             foreach (var bone in bones) 
             {
-                Vector3 currentBoneRotation = bone.changeAmount.rot;
+                var currentBoneRotation = bone.changeAmount.rot;
 
-                GuideCommand.EqualsInfo addMove = new GuideCommand.EqualsInfo();
+                var addMove = new GuideCommand.EqualsInfo();
                 addMove.dicKey = bone.dicKey; //
                 addMove.newValue = Vector3.zero;
                 addMove.oldValue = currentBoneRotation;

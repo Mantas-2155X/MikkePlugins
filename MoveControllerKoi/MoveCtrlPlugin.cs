@@ -12,7 +12,7 @@ namespace MoveController
     public class MoveCtrlPlugin : BaseUnityPlugin 
     {
         private const string GUID = "mikke.MoveControllerKOI";
-        public const string VERSION = "1.7.1";
+        public const string VERSION = "1.7.1.1";
         
         public static Camera camera;
         public static Studio.CameraControl cameraControl;
@@ -51,9 +51,9 @@ namespace MoveController
         private void OnDisable() => SceneManager.sceneLoaded -= SceneChanged;
         
         [HarmonyPostfix]
-        [HarmonyPatch(typeof(AddObjectFemale), "Add", new[] {typeof(ChaControl), typeof(OICharInfo), typeof(ObjectCtrlInfo), typeof(TreeNodeObject), typeof(bool), typeof(int)})]
-        [HarmonyPatch(typeof(AddObjectMale), "Add", new[] {typeof(ChaControl), typeof(OICharInfo), typeof(ObjectCtrlInfo), typeof(TreeNodeObject), typeof(bool), typeof(int)})]
-        [HarmonyPatch(typeof(ChaControl), "ChangeCoordinateType", new[] {typeof(ChaFileDefine.CoordinateType), typeof(bool)})]
+        [HarmonyPatch(typeof(AddObjectFemale), "Add", typeof(ChaControl), typeof(OICharInfo), typeof(ObjectCtrlInfo), typeof(TreeNodeObject), typeof(bool), typeof(int))]
+        [HarmonyPatch(typeof(AddObjectMale), "Add", typeof(ChaControl), typeof(OICharInfo), typeof(ObjectCtrlInfo), typeof(TreeNodeObject), typeof(bool), typeof(int))]
+        [HarmonyPatch(typeof(ChaControl), "ChangeCoordinateType", typeof(ChaFileDefine.CoordinateType), typeof(bool))]
         public static void UpdateAccessoryNodes() 
         {
             AccessoryCtrlService.UpdateNodes();

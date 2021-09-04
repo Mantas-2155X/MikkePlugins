@@ -12,12 +12,12 @@ namespace MoveController
         public static Button ClickButton(Button button, Action<BaseEventData> action) 
         {
             button.gameObject.AddComponent<EventTrigger>();
-            EventTrigger trigger = button.gameObject.GetComponent<EventTrigger>();
+            var trigger = button.gameObject.GetComponent<EventTrigger>();
             trigger.triggers.Add(getScrollTrigger());
 
             //CLICK
-            EventTrigger.Entry entryClick = new EventTrigger.Entry {eventID = EventTriggerType.PointerClick};
-            entryClick.callback.AddListener((data) => 
+            var entryClick = new EventTrigger.Entry {eventID = EventTriggerType.PointerClick};
+            entryClick.callback.AddListener(data => 
             {
                 pressColor(button);
                 action(data);
@@ -25,23 +25,23 @@ namespace MoveController
             trigger.triggers.Add(entryClick);
 
             //BUTTON UP
-            EventTrigger.Entry entryPointerUp = new EventTrigger.Entry {eventID = EventTriggerType.PointerUp};
-            entryPointerUp.callback.AddListener((data) => { liftColor(button); });
+            var entryPointerUp = new EventTrigger.Entry {eventID = EventTriggerType.PointerUp};
+            entryPointerUp.callback.AddListener(data => { liftColor(button); });
             trigger.triggers.Add(entryPointerUp);
             return button;
         }
 
         public static Button DragButton(Button button, DragButtonAction dba) 
         {
-            bool dragging = false;
+            var dragging = false;
 
             button.gameObject.AddComponent<EventTrigger>();
-            EventTrigger trigger = button.gameObject.GetComponent<EventTrigger>();
+            var trigger = button.gameObject.GetComponent<EventTrigger>();
             trigger.triggers.Add(getScrollTrigger());
 
             //CLICK
-            EventTrigger.Entry entryClick = new EventTrigger.Entry {eventID = EventTriggerType.PointerClick};
-            entryClick.callback.AddListener((data) => 
+            var entryClick = new EventTrigger.Entry {eventID = EventTriggerType.PointerClick};
+            entryClick.callback.AddListener(data => 
             {
                 pressColor(button);
 
@@ -57,8 +57,8 @@ namespace MoveController
             trigger.triggers.Add(entryClick);
 
             //INIT DRAG
-            EventTrigger.Entry potEntry = new EventTrigger.Entry {eventID = EventTriggerType.InitializePotentialDrag};
-            potEntry.callback.AddListener((data) => 
+            var potEntry = new EventTrigger.Entry {eventID = EventTriggerType.InitializePotentialDrag};
+            potEntry.callback.AddListener(data => 
             {
                 if (button.interactable == false) 
                 {
@@ -72,8 +72,8 @@ namespace MoveController
             trigger.triggers.Add(potEntry);
 
             //DRAG
-            EventTrigger.Entry entryDrag = new EventTrigger.Entry {eventID = EventTriggerType.Drag};
-            entryDrag.callback.AddListener((data) => 
+            var entryDrag = new EventTrigger.Entry {eventID = EventTriggerType.Drag};
+            entryDrag.callback.AddListener(data => 
             {
                 if (button.interactable == false) 
                 {
@@ -93,8 +93,8 @@ namespace MoveController
             trigger.triggers.Add(entryDrag);
 
             //END DRAG
-            EventTrigger.Entry entryEndDrag = new EventTrigger.Entry {eventID = EventTriggerType.EndDrag};
-            entryEndDrag.callback.AddListener((data) => 
+            var entryEndDrag = new EventTrigger.Entry {eventID = EventTriggerType.EndDrag};
+            entryEndDrag.callback.AddListener(data => 
             {
                 if (button.interactable == false) 
                 {
@@ -106,8 +106,8 @@ namespace MoveController
             trigger.triggers.Add(entryEndDrag);
 
             //BUTTON UP
-            EventTrigger.Entry entryPointerUp = new EventTrigger.Entry {eventID = EventTriggerType.PointerUp};
-            entryPointerUp.callback.AddListener((data) => 
+            var entryPointerUp = new EventTrigger.Entry {eventID = EventTriggerType.PointerUp};
+            entryPointerUp.callback.AddListener(data => 
             {
                 if (button.interactable == false) 
                 {
@@ -126,7 +126,7 @@ namespace MoveController
 
         private static void pressColor(Button button) 
         {
-            ColorBlock cb = button.colors;
+            var cb = button.colors;
             HighlightColor = cb.highlightedColor;
             cb.highlightedColor = cb.pressedColor;
             button.colors = cb;
@@ -134,7 +134,7 @@ namespace MoveController
 
         private static void liftColor(Button button) 
         {
-            ColorBlock cb = button.colors;
+            var cb = button.colors;
             cb.highlightedColor = HighlightColor;
             button.colors = cb;
             EventSystem.current.SetSelectedGameObject(null);
@@ -142,23 +142,23 @@ namespace MoveController
 
         public static Slider slider(Slider slider, Action<float> action) 
         {
-            slider.onValueChanged.AddListener((x) => { action(x); });
+            slider.onValueChanged.AddListener(x => { action(x); });
             return slider;
         }
 
         internal static EventTrigger.Entry getScrollTrigger() {
-            EventTrigger.Entry scroll = new EventTrigger.Entry {eventID = EventTriggerType.Scroll};
-            scroll.callback.AddListener((data) => 
+            var scroll = new EventTrigger.Entry {eventID = EventTriggerType.Scroll};
+            scroll.callback.AddListener(data => 
             {
                 if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl)) 
                 {
                     return; //CTRL just messes up selection, better to do nothing
                 }
 
-                float scrollRate = ((PointerEventData) data).scrollDelta.y;
+                var scrollRate = ((PointerEventData) data).scrollDelta.y;
 
-                bool shiftDown = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
-                bool altDown = Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt);
+                var shiftDown = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
+                var altDown = Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt);
                 if (FkManagerService.ActiveBone == null) 
                     return;
                 
