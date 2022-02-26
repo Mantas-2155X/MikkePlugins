@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>7b0525bb-98bf-4fe2-bd10-9a4f2f0fc2da</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Shared</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)AccessoryCtrlService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ButtonActionManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ButtonManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FkManagerService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MovableWindow.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MoveAndRotateCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MoveCtrlPlugin.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MoveCtrlWindow.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MoveObjectService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UndoRedoService.cs" />
+  </ItemGroup>
+</Project>
