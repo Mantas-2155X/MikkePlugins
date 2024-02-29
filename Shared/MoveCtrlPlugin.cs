@@ -12,7 +12,7 @@ namespace MoveController
     public class MoveCtrlPlugin : BaseUnityPlugin 
     {
         private const string GUID = "mikke.MoveControllerKOI";
-        public const string VERSION = "1.7.1.1";
+        public const string VERSION = "1.7.1.2";
         
         public static Camera camera;
         public static Studio.CameraControl cameraControl;
